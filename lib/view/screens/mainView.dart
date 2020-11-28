@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+
 import 'package:number_facts/constants/custom_theme.dart';
 import 'package:number_facts/core/facts.dart';
 import 'package:number_facts/services/facts_service.dart';
@@ -20,17 +21,22 @@ class _MainViewState extends State<MainView> {
     super.initState();
   }
 
-  @override
   final _factsResponseService = FactsResponseService();
 
   Widget build(BuildContext context) {
     final deviceData = MediaQuery.of(context);
     return Scaffold(
-      appBar: buildAppBarDummie(),
       body: Container(
-        color: myTheme.backgroundColor,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage(
+            "assets/real_galaxy.jpg",
+          ),
+        )),
         child: Column(
           children: [
+            SizedBox(height: deviceData.size.height * 0.2),
             Expanded(
               child: buildFutureBuilderMainDummie(),
             ),
@@ -48,8 +54,10 @@ class _MainViewState extends State<MainView> {
 
   AppBar buildAppBarDummie() {
     return AppBar(
+      backgroundColor: Colors.orange[900],
       title: Text("FACTS"),
       centerTitle: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
     );
   }
 
@@ -89,13 +97,6 @@ class _MainViewState extends State<MainView> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          RaisedButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0)),
-            child: Text(snapshot.data.number.toString()),
-            color: Colors.orange,
-            onPressed: () {},
-          ),
           Expanded(
             child: Center(
               child: Container(
@@ -103,7 +104,10 @@ class _MainViewState extends State<MainView> {
                     isRepeatingAnimation: false,
                     text: [snapshot.data.text],
                     textStyle: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
                       fontSize: 30.0,
+                      color: Colors.white70,
                     ),
                     textAlign: TextAlign.start,
                     alignment:
@@ -123,8 +127,15 @@ class _MainViewState extends State<MainView> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18.0),
       ),
-      color: myTheme.buttonColor,
-      child: Text("GET"),
+      color: Colors.grey,
+      child: Text(
+        "GET RANDOM FACT",
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontStyle: FontStyle.italic,
+        ),
+      ),
       onPressed: () {
         setState(() {});
       },
@@ -133,11 +144,24 @@ class _MainViewState extends State<MainView> {
 
   Widget buildCurvedNavigationBarDummie() {
     return CurvedNavigationBar(
-      backgroundColor: myTheme.backgroundColor,
+      color: Colors.black38,
+      backgroundColor: Colors.black45,
       items: <Widget>[
-        Icon(Icons.add, size: 30),
-        Icon(Icons.list, size: 30),
-        Icon(Icons.settings, size: 30),
+        Icon(
+          Icons.add,
+          size: 30,
+          color: Colors.white,
+        ),
+        Icon(
+          Icons.list,
+          size: 30,
+          color: Colors.white,
+        ),
+        Icon(
+          Icons.settings,
+          size: 30,
+          color: Colors.white,
+        ),
       ],
       onTap: (index) {
         //Handle button tap
