@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:number_facts/constants/custom_theme.dart';
 import 'package:number_facts/core/facts.dart';
@@ -12,6 +13,7 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
+  // ! START OF THE TREE
   @override
   void initState() {
     FactsResponseService _factsResponseService;
@@ -24,29 +26,30 @@ class _MainViewState extends State<MainView> {
   Widget build(BuildContext context) {
     final deviceData = MediaQuery.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text("FACTS"),
-        centerTitle: true,
-      ),
+      appBar: buildAppBarDummie(),
       body: Container(
         color: myTheme.backgroundColor,
-        child: Padding(
-          padding: EdgeInsets.all(35),
-          child: Column(
-            children: [
-              Expanded(
-                child: buildFutureBuilderMainDummie(),
-              ),
-              SizedBox(height: deviceData.size.height * 0.10),
-              buildFlatButtonGET(deviceData),
-              SizedBox(
-                height: deviceData.size.height * 0.05,
-              ),
-              buildBottomNavigationBarDummie(),
-            ],
-          ),
+        child: Column(
+          children: [
+            Expanded(
+              child: buildFutureBuilderMainDummie(),
+            ),
+            SizedBox(height: deviceData.size.height * 0.10),
+            buildRaisedButtonGET(deviceData),
+            SizedBox(
+              height: deviceData.size.height * 0.05,
+            ),
+            buildCurvedNavigationBarDummie(),
+          ],
         ),
       ),
+    );
+  } // ! END OF THE TREE
+
+  AppBar buildAppBarDummie() {
+    return AppBar(
+      title: Text("FACTS"),
+      centerTitle: true,
     );
   }
 
@@ -86,6 +89,13 @@ class _MainViewState extends State<MainView> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          RaisedButton(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0)),
+            child: Text(snapshot.data.number.toString()),
+            color: Colors.orange,
+            onPressed: () {},
+          ),
           Expanded(
             child: Center(
               child: Container(
@@ -108,11 +118,11 @@ class _MainViewState extends State<MainView> {
     );
   }
 
-  Widget buildFlatButtonGET(MediaQueryData deviceData) {
-    return FlatButton(
-      height: deviceData.size.height * 0.10,
-      minWidth: deviceData.size.width * 0.2,
-      shape: myTheme.inputDecorationTheme.border,
+  Widget buildRaisedButtonGET(MediaQueryData deviceData) {
+    return RaisedButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18.0),
+      ),
       color: myTheme.buttonColor,
       child: Text("GET"),
       onPressed: () {
@@ -121,22 +131,17 @@ class _MainViewState extends State<MainView> {
     );
   }
 
-  Widget buildBottomNavigationBarDummie() {
-    return BottomNavigationBar(
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.icecream),
-          label: "asdas",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.icecream),
-          label: "asdas",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.icecream),
-          label: "asdas",
-        ),
+  Widget buildCurvedNavigationBarDummie() {
+    return CurvedNavigationBar(
+      backgroundColor: myTheme.backgroundColor,
+      items: <Widget>[
+        Icon(Icons.add, size: 30),
+        Icon(Icons.list, size: 30),
+        Icon(Icons.settings, size: 30),
       ],
+      onTap: (index) {
+        //Handle button tap
+      },
     );
   }
 }
