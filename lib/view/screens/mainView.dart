@@ -1,8 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-
-import 'package:number_facts/constants/custom_theme.dart';
 import 'package:number_facts/core/facts.dart';
 import 'package:number_facts/services/facts_service.dart';
 
@@ -17,7 +15,6 @@ class _MainViewState extends State<MainView> {
   // ! START OF THE TREE
   @override
   void initState() {
-    FactsResponseService _factsResponseService;
     super.initState();
   }
 

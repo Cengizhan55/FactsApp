@@ -1,7 +1,7 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:number_facts/view/screens/mainView.dart';
 
-import 'constants/custom_theme.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,8 +12,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: myTheme,
-      home: MainView(),
+      theme: Theme.of(context),
+      home: AnimatedSplashScreen(
+        animationDuration: Duration(seconds: 2),
+        splash: 'assets/facts.png',
+        duration: 3000,
+        nextScreen: MainView(),
+        splashTransition: SplashTransition.rotationTransition,
+      ),
     );
   }
 }
