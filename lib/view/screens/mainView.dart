@@ -1,8 +1,10 @@
+import 'dart:io';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:number_facts/core/facts.dart';
 import 'package:number_facts/services/facts_service.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class MainView extends StatefulWidget {
   MainView({Key key}) : super(key: key);
@@ -72,7 +74,14 @@ class _MainViewState extends State<MainView> {
                   SizedBox(
                     height: 50,
                   ),
-                  CircularProgressIndicator(),
+                  CircularStepProgressIndicator(
+                    totalSteps: 20,
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    gradientColor: LinearGradient(
+                      colors: [Colors.black, Colors.cyan],
+                    ),
+                  ),
                 ],
               ),
             );
@@ -97,19 +106,22 @@ class _MainViewState extends State<MainView> {
           Expanded(
             child: Center(
               child: Container(
-                child: TyperAnimatedTextKit(
-                    isRepeatingAnimation: false,
-                    text: [snapshot.data.text],
-                    textStyle: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30.0,
-                      color: Colors.white70,
-                    ),
-                    textAlign: TextAlign.start,
-                    alignment:
-                        AlignmentDirectional.topStart // or Alignment.topLeft
-                    ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: TyperAnimatedTextKit(
+                      isRepeatingAnimation: false,
+                      text: [snapshot.data.text],
+                      textStyle: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.0,
+                        color: Colors.white70,
+                      ),
+                      textAlign: TextAlign.start,
+                      alignment:
+                          AlignmentDirectional.topStart // or Alignment.topLeft
+                      ),
+                ),
               ),
             ),
           ),
@@ -141,27 +153,28 @@ class _MainViewState extends State<MainView> {
 
   Widget buildCurvedNavigationBarDummie() {
     return CurvedNavigationBar(
+      animationDuration: Duration(seconds: 1),
       color: Colors.black38,
       backgroundColor: Colors.black45,
       items: <Widget>[
         Icon(
-          Icons.add,
+          Icons.home,
           size: 30,
           color: Colors.white,
         ),
         Icon(
-          Icons.list,
-          size: 30,
-          color: Colors.white,
-        ),
-        Icon(
-          Icons.settings,
+          Icons.exit_to_app,
           size: 30,
           color: Colors.white,
         ),
       ],
       onTap: (index) {
-        //Handle button tap
+        switch (index) {
+          case 1:
+            exit(0);
+            break;
+          default:
+        }
       },
     );
   }
