@@ -12,17 +12,19 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final String SPLASH_IMAGE_DIRECTORY = 'assets/facts.png';
     return MaterialApp(
+      
       color: Colors.black,
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: Theme.of(context),
       home: AnimatedSplashScreen(
-        animationDuration: Duration(seconds: 2),
-        splash: 'assets/facts.png',
+        animationDuration: Duration(seconds: 1),
+        splash: SPLASH_IMAGE_DIRECTORY,
         duration: 3000,
         nextScreen: MainView(),
-        splashTransition: SplashTransition.rotationTransition,
+        splashTransition: SplashTransition.sizeTransition,
       ),
     );
   }

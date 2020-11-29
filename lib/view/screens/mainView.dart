@@ -44,21 +44,11 @@ class _MainViewState extends State<MainView> {
             SizedBox(
               height: deviceData.size.height * 0.05,
             ),
-            buildCurvedNavigationBarDummie(),
           ],
         ),
       ),
     );
   } // ! END OF THE TREE
-
-  AppBar buildAppBarDummie() {
-    return AppBar(
-      backgroundColor: Colors.orange[900],
-      title: Text("FACTS"),
-      centerTitle: true,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
-    );
-  }
 
   FutureBuilder<Facts> buildFutureBuilderMainDummie() {
     return FutureBuilder<Facts>(
@@ -66,35 +56,49 @@ class _MainViewState extends State<MainView> {
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Veriler yükleniyor...'),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  CircularStepProgressIndicator(
-                    totalSteps: 20,
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    gradientColor: LinearGradient(
-                      colors: [Colors.black, Colors.cyan],
-                    ),
-                  ),
-                ],
-              ),
-            );
+            return buildCircularProgressDummie(context);
             break;
           default:
             if (snapshot.hasError)
-              return Center(
-                child: Text('Hata: ${snapshot.error}'),
-              );
+              return buildErrorMessageDummie(snapshot);
             else
               return buildCenterTextScreenDummie(snapshot);
         }
       },
+    );
+  }
+
+  Center buildErrorMessageDummie(AsyncSnapshot<Facts> snapshot) {
+    return Center(
+      child: Text(
+        'Hata: ${snapshot.error}',
+        style: TextStyle(color: Colors.red),
+      ),
+    );
+  }
+
+  Center buildCircularProgressDummie(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Loading..',
+            style: TextStyle(color: Colors.cyan, fontSize: 20),
+          ),
+          SizedBox(
+            height: 50,
+          ),
+          CircularStepProgressIndicator(
+            totalSteps: 20,
+            width: MediaQuery.of(context).size.width * 0.2,
+            height: MediaQuery.of(context).size.height * 0.1,
+            gradientColor: LinearGradient(
+              colors: [Colors.black, Colors.cyan],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -115,7 +119,7 @@ class _MainViewState extends State<MainView> {
                         fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold,
                         fontSize: 30.0,
-                        color: Colors.white70,
+                        color: Colors.white,
                       ),
                       textAlign: TextAlign.start,
                       alignment:
@@ -131,14 +135,16 @@ class _MainViewState extends State<MainView> {
     );
   }
 
-  Widget buildRaisedButtonGET(MediaQueryData deviceData) {
+  Widget buildRaisedButtonGET(
+    MediaQueryData deviceData,
+  ) {
     return RaisedButton(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18.0),
       ),
       color: Colors.grey,
       child: Text(
-        "GET RANDOM FACT",
+        "GET A RANDOM FACT",
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
@@ -147,34 +153,6 @@ class _MainViewState extends State<MainView> {
       ),
       onPressed: () {
         setState(() {});
-      },
-    );
-  }
-
-  Widget buildCurvedNavigationBarDummie() {
-    return CurvedNavigationBar(
-      animationDuration: Duration(seconds: 1),
-      color: Colors.black38,
-      backgroundColor: Colors.black45,
-      items: <Widget>[
-        Icon(
-          Icons.home,
-          size: 30,
-          color: Colors.white,
-        ),
-        Icon(
-          Icons.exit_to_app,
-          size: 30,
-          color: Colors.white,
-        ),
-      ],
-      onTap: (index) {
-        switch (index) {
-          case 1:
-            exit(0);
-            break;
-          default:
-        }
       },
     );
   }
