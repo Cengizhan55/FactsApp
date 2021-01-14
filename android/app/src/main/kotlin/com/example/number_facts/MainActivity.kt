@@ -1,4 +1,4 @@
-package com.example.number_facts
+package com.mycompany.number_facts
 
 import io.flutter.embedding.android.FlutterActivity
 

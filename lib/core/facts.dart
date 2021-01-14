@@ -1,12 +1,12 @@
 class Facts {
-  String text;
-  int number;
-  bool found;
-  String type;
+  String text="";
+  int number=0;
+  bool found=false;
+  String type="";
 
-  Facts({this.text, this.number, this.found, this.type});
+  Facts({ this.text,this.number,this.found, this.type});
 
-  Facts.fromJson(Map<String, dynamic> json) {
+  Facts.fromJson(Map<dynamic, dynamic> json) {
     text = json['text'];
     number = (json['number']).round();
     found = json['found'];

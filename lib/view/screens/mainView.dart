@@ -1,14 +1,10 @@
-import 'dart:io';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:number_facts/core/facts.dart';
 import 'package:number_facts/services/facts_service.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class MainView extends StatefulWidget {
-  MainView({Key key}) : super(key: key);
-
   @override
   _MainViewState createState() => _MainViewState();
 }
@@ -26,13 +22,12 @@ class _MainViewState extends State<MainView> {
     final deviceData = MediaQuery.of(context);
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-          fit: BoxFit.cover,
-          image: AssetImage(
-            "assets/real_galaxy.jpg",
+        decoration:BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background.jpg"),
+            fit: BoxFit.cover,
           ),
-        )),
+        ),
         child: Column(
           children: [
             SizedBox(height: deviceData.size.height * 0.2),
@@ -54,15 +49,20 @@ class _MainViewState extends State<MainView> {
     return FutureBuilder<Facts>(
       future: _factsResponseService.getData(),
       builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
+        AsyncSnapshot<Facts> myFacts = snapshot;
+        switch (myFacts.connectionState) {
           case ConnectionState.waiting:
             return buildCircularProgressDummie(context);
-            break;
-          default:
-            if (snapshot.hasError)
-              return buildErrorMessageDummie(snapshot);
-            else
-              return buildCenterTextScreenDummie(snapshot);
+
+          case ConnectionState.none:
+            return buildErrorMessageDummie(myFacts);
+          case ConnectionState.done:
+            return buildCenterTextScreenDummie(myFacts, context);
+
+          case ConnectionState.active:
+            return Center(
+              child: Text("its active"),
+            );
         }
       },
     );
@@ -102,7 +102,9 @@ class _MainViewState extends State<MainView> {
     );
   }
 
-  Center buildCenterTextScreenDummie(AsyncSnapshot<Facts> snapshot) {
+  Center buildCenterTextScreenDummie(
+      AsyncSnapshot<Facts> snapshot, BuildContext context) {
+    List<String> myList = [snapshot.error];
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -113,8 +115,9 @@ class _MainViewState extends State<MainView> {
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: TyperAnimatedTextKit(
+                      speed: Duration(milliseconds: 20),
                       isRepeatingAnimation: false,
-                      text: [snapshot.data.text],
+                      text: snapshot.hasData ? [snapshot.data.text] : myList,
                       textStyle: TextStyle(
                         fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold,
