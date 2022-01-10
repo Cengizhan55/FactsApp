@@ -47,7 +47,7 @@ android {
         applicationId "com.mycompany.number_facts"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 7
+        versionCode 8
         versionName flutterVersionName
     }
 

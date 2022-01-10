@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'FACTS',
       theme: Theme.of(context),
       home:AnimatedSplashScreen(
+        backgroundColor: Colors.white,
         animationDuration: Duration(seconds: 1),
         splash: SPLASH_IMAGE_DIRECTORY,
         duration: 3000,
